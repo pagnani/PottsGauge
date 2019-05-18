@@ -95,7 +95,6 @@ function Energy(J,h,x)
     return ene
 end
 
-
 function testgauge(J1,h1, J2,h2; nsample::Integer=100)
     q,q,N,N = size(J1)
     (size(J1) == size(J2)) || error("size J2 != size J1")
@@ -109,10 +108,11 @@ function testgauge(J1,h1, J2,h2; nsample::Integer=100)
         # println("E1=$E1 E2=$E2\tE2-E1 =", E2-E1)
     end
     s = std(res)
+    μ = mean(res)
     s > 1e-8 && warn("borked gauge? μ/std = ", μ/s)
-    println("⟨E₂-E₁⟩ = ",mean(res),"\tstd = $s (nsample = $nsample)")
+    # warn("⟨E₂-E₁⟩ = ",μ,"\tstd = $s (nsample = $nsample)")
+    return μ,s
 end
-
 
 function UV!(U::Array{T,3},V::Array{T,3},J::Array{T,4}, x::ZeroSumGauge) where T<:Real
     q,q,N,N = size(J)

@@ -1,0 +1,34 @@
+module TestGauge
+using PottsGauge, Test
+
+
+function gaugetests(q::Int,N::Int)
+
+    J = rand(q,q,N,N)
+    h = rand(q,N)
+    J = 0.5(J + permutedims(2,1,4,3)) #symmetryzed
+
+    Jtest,htest = gauge(J,h,ZeroSumGauge())
+    @test isgauge(Jtest,htest, ZeroSumGauge())
+    μ,s=PottsGauge.testgauge(Jtest,htest, J,h; nsample::Integer=100)
+    @test s/μ < 1e-8
+
+    Jtest,htest = gauge(J,h,LatticeGas())
+    @test isgauge(Jtest,htest, LatticeGas())
+    μ,s=PottsGauge.testgauge(Jtest,htest, J,h; nsample::Integer=100)
+    @test s/μ < 1e-8
+
+    xwt = rand(1:q,N)
+    Jtest,htest = gauge(J,h,WildType(xwt))
+    @test isgauge(Jtest,htest, WildType(xwt))
+    μ,s=PottsGauge.testgauge(Jtest,htest, J,h; nsample::Integer=100)
+    @test s/μ < 1e-8
+end
+
+gaugetests(21,100)
+gaugetests(4,3)
+gaugetests(4,100)
+
+printstyled("All TestGauge passed!\n",color=:green,bold=true)
+
+end # end module TestGauge
