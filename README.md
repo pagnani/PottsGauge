@@ -12,5 +12,5 @@ Usage:
 
     gauge(J,h,ZeroSumGauge())
     gauge(J,h,Wildtype(x0))
-where in the last case `x0` is a `Vector{Int}` of size `N` whose values are in the interval `1,…,q`
 ```
+where in the last case `x0` is a `Vector{Int}` of size `N` whose values are in the interval `1,…,q`.
