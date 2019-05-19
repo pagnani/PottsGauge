@@ -25,9 +25,9 @@ function gaugetests(q::Int,N::Int)
     @test s/μ < 1e-8
 end
 
-gaugetests(21,100)
+gaugetests(21,10)
 gaugetests(4,3)
-gaugetests(4,100)
+gaugetests(4,10)
 
 printstyled("All TestGauge passed!\n",color=:green,bold=true)
 
