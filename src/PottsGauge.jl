@@ -142,6 +142,7 @@ function UV!(U::Array{T,3},V::Array{T,3},J::Array{T,4}, x::LatticeGas) where T<:
 end
 
 function UV!(U::Array{T,3},V::Array{T,3},J::Array{T,4}, x::WildType) where T<:Real
+    q,q,N,N = size(J)
     x0 = x.x0
     all(x -> 1 ≤ x ≤ q, x0) || error("gauge conf not compatible")
     for i in 1:N

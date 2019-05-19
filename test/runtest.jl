@@ -1,4 +1,4 @@
-using GaugePotts,Test
+using PottsGauge,Test
 
 tests = ["testgauge"]
 
