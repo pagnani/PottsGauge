@@ -1,4 +1,4 @@
-PottsGauge# PottsGauge
+# PottsGauge
 | **Documentation**                       | **Build Status**                                                                                | **Coverage** |
 |:---------------------------------------:|:-----------------------------------------------------------------------------------------------:|:------------:|
 | [![](https://img.shields.io/badge/docs-latest-blue.svg)](https://pagnani.github.io/PottsGauge/dev) | [![Build Status](https://travis-ci.com/pagnani/PottsGauge.svg?branch=master)](https://travis-ci.com/pagnani/PottsGauge) [![Build status](https://ci.appveyor.com/api/projects/status/ug0kr4hunm5wn163?svg=true)](https://ci.appveyor.com/project/pagnani/pottsgauge) | [![codecov](https://codecov.io/gh/pagnani/PottsGauge/branch/master/graph/badge.svg)](https://codecov.io/gh/pagnani/PottsGauge) |
