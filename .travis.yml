@@ -4,27 +4,15 @@ os:
   - linux
   - osx
 julia:
+  - 1.0
   - nightly
-  - 1.0.3
+matrix:
+    allow_failures:
+        - julia: nightly
 notifications:
-  - email: false
-branches:
-  only:
-  - master
-script:
-  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-  - julia --inline=no -e 'using Pkg; Pkg.build("PottsGauge"); Pkg.test("PottsGauge"; coverage=true)'
+  email: false
 after_success:
-  - julia -e 'using Pkg; cd(Pkg.dir("PottsGauge")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
+ - julia -e 'using Pkg, FastaIO; Pkg.add("Coverage"); using Coverage; get(ENV,"TRAVIS_OS_NAME","")=="linux" && get(ENV,"TRAVIS_JULIA_VERSION","")=="0.7" && Codecov.submit(Codecov.process_folder())'
 
-# jobs:
-#   include:
-#     - stage: "Documentation"
-#       julia: 1.0
-#       os: linux
-#       script:
-#         - julia --project=docs/ -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd()));
-#                                                Pkg.instantiate()'
-#         - julia --project=docs/ docs/make.jl
-#       after_success: skip
-
+#  - julia -e 'using Pkg, FastaIO; Pkg.add("Documenter"); include(joinpath("docs", "make.jl"))'
+ 
