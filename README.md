@@ -7,7 +7,8 @@ is a change `(J,h)→(J',h')` such that for all Potts configurations `x`
 
 The module defines  the gauge-transforms `gauge` of pair `J,h`. `J,h` are arrays of size `q×q×N×N, q×N` respectively. `J` should be symmetric: `J[a,b,i,j] == J[b,a,j,i]`. Allowed `gauge` are:  `ZeroSumGauge,LatticeGas,WildType`.
 
-```Usage:
+```
+Usage:
 
     gauge(J,h,ZeroSumGauge())
     gauge(J,h,Wildtype(x0))
