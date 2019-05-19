@@ -75,6 +75,11 @@ function gauge(J::Array{F,4},h::Array{F,2},gauge::T) where F <: Real where T <: 
     return JT,hT
 end
 
+"""
+    function Energy(J,h,x)
+
+Compute the energy with parameters `J::Array{T,4},h::Array{T,2}` of a  configuration `x::Array{Int,1}` of integer elements. `x[i] ∈ 1:q` where `q` is the number of letters (e.g. `q=21` in MSA with gaps);
+"""
 function Energy(J,h,x)
 
     q,q,N,N = size(J)
@@ -95,6 +100,10 @@ function Energy(J,h,x)
     return ene
 end
 
+"""
+    function testgauge(J1,h1,J2,h2; nsample::Integer)
+Test if parameters J1,h1 and J2,h2 are gauge related; Return mean and std of the energy difference induced by the two set of parameters J1,h1 and J2,h2 of `nsample` random configurations. 
+"""
 function testgauge(J1,h1, J2,h2; nsample::Integer=100)
     q,q,N,N = size(J1)
     (size(J1) == size(J2)) || error("size J2 != size J1")
