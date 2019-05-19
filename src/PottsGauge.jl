@@ -161,6 +161,7 @@ shift(hT,::ZeroSumGauge) = ([ mean(hT[:,i]) for i in 1:size(hT,2)])
 shift(hT,::LatticeGas) = ([ hT[end,i] for i in 1:size(hT,2)])
 
 function shift(J,h,x::WildType)
+    N = lentgth(x.x0)
     e0 = Energy(J,h,x.x0)
     [-e0/N for i in 1:size(h,2)]
 end
