@@ -23,6 +23,14 @@ function gaugetests(q::Int,N::Int)
     @test PottsGauge.isgauge(Jtest,htest, WildType(xwt))
     μ,s=PottsGauge.testgauge(Jtest,htest, J,h)
     @test s/μ < 1e-8
+
+    U = rand(q,N,N)
+    V = rand(q,N,N)
+    C = rand(N)
+    xEG = PottsGauge.ExternalGauge(U,V,C)
+    Jtest,htest = gauge(J,h,xEG)
+    μ,s=PottsGauge.testgauge(Jtest,htest, J,h)
+    @test s/μ < 1e-8
 end
 
 gaugetests(21,10)
