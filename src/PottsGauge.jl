@@ -7,12 +7,17 @@ using Statistics
 # start type definition
 
 abstract type Gauge end
+
 struct ZeroSumGauge <: Gauge end
 struct LatticeGas <: Gauge end
 struct WildType <: Gauge
     x0::Vector{Int}
 end
-
+struct ExternalGauge <: Gauge 
+    U::Array{Float64,3}
+    V::Array{Float64,3}
+    C::Array{Float64,1}
+end
 
 """
     gauge(J,h,gauge::T)
@@ -102,7 +107,7 @@ end
 
 """
     function testgauge(J1,h1,J2,h2; nsample::Integer)
-Test if parameters J1,h1 and J2,h2 are gauge related; Return mean and std of the energy difference induced by the two set of parameters J1,h1 and J2,h2 of `nsample` random configurations. 
+Test if parameters J1,h1 and J2,h2 are gauge related; Return mean and std of the energy difference induced by the two set of parameters J1,h1 and J2,h2 of `nsample` random configurations.
 """
 function testgauge(J1,h1, J2,h2; nsample::Integer=100)
     q,q,N,N = size(J1)
@@ -166,8 +171,29 @@ function UV!(U::Array{T,3},V::Array{T,3},J::Array{T,4}, x::WildType) where T<:Re
     end
 end
 
+function UV!(U::Array{T,3},V::Array{T,3},J::Array{T,4},x::ExternalGauge) where T<:Real
+    V = x.V
+    q,q,N,N = size(J)
+    qU,NU,NU = size(U)
+    qV,NV,NV = size(V)
+    NU == N || error("size error on NU=$NU")
+    NV == N || error("size error on NV=$NV")
+    qU == q || error("size error on qU=$qU")
+    qV == q || error("size error on qU=$qV")
+    for i in 1:N
+        for j in 1:N
+            for a in 1:q
+                U[a,i,j] = x.U[a,i,j]
+                V[a,i,j] = x.V[a,i,j]
+            end
+        end
+    end
+end
+
+
 shift(hT,::ZeroSumGauge) = ([ mean(hT[:,i]) for i in 1:size(hT,2)])
 shift(hT,::LatticeGas) = ([ hT[end,i] for i in 1:size(hT,2)])
+shift(ht,x::ExternalGauge) = (x.C)
 
 function shift(J,h,x::WildType)
     N = length(x.x0)
