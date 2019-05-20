@@ -8,12 +8,19 @@ a vector `x` of length `N`, and `x[i] ∈ 1:q` (`q` state Potts variable), a gau
 is a change `(J,h)→(J',h')` such that for all Potts configurations `x`
 `E(x,J,h)-E(x,J',h')=const`.
 
-The module defines  the gauge-transforms `gauge` of pair `J,h`. `J,h` are arrays of size `q×q×N×N, q×N` respectively. `J` should be symmetric: `J[a,b,i,j] == J[b,a,j,i]`. Allowed `gauge` are:  `ZeroSumGauge,LatticeGas,WildType`.
+The module defines  the gauge-transforms `gauge` of pair `J,h`. `J,h` are arrays of size `q×q×N×N, q×N` respectively. `J` should be symmetric: `J[a,b,i,j] == J[b,a,j,i]`. Allowed `gauge` are:  `ZeroSumGauge,LatticeGas,WildType,ExternalGauge`.
 
 ```
-Usage:
+    Usage:
 
-    gauge(J,h,ZeroSumGauge())
-    gauge(J,h,Wildtype(x0))
+        gauge(J,h,ZeroSumGauge())
+        gauge(J,h,Wildtype(x0))
+        gauge(J,h,ExternalGauge(U,V,C))
+
+    where:
+
+        * For `WildType` `x0` is a `Vector{Int}` of size `N` whose values are in the interval `1,…,q`
+
+        * For `ExternalGauge`, `U`,`V` are `q×N×N` arrays, and C is vector of length `N`.
+    """
 ```
-where in the last case `x0` is a `Vector{Int}` of size `N` whose values are in the interval `1,…,q`.

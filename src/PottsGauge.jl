@@ -30,7 +30,9 @@ Usage:
     gauge(J,h,Wildtype(x0))
     gauge(J,h,ExternalGauge(U,V,C))
 where:
+
     * For `WildType` `x0` is a `Vector{Int}` of size `N` whose values are in the interval `1,…,q`
+
     * For `ExternalGauge`, `U`,`V` are `q×N×N` arrays, and C is vector of length `N`.
 """
 function gauge(J::Array{F,4},h::Array{F,2},gauge::T) where F <: Real where T <: Gauge
