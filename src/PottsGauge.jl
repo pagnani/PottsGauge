@@ -1,6 +1,6 @@
 module PottsGauge
 
-export gauge, ZeroSumGauge, LatticeGas, WildType
+export gauge, ZeroSumGauge, LatticeGas, WildType, ExternalGauge
 
 using Statistics
 
@@ -13,7 +13,7 @@ struct LatticeGas <: Gauge end
 struct WildType <: Gauge
     x0::Vector{Int}
 end
-struct ExternalGauge <: Gauge 
+struct ExternalGauge <: Gauge
     U::Array{Float64,3}
     V::Array{Float64,3}
     C::Array{Float64,1}
@@ -22,13 +22,16 @@ end
 """
     gauge(J,h,gauge::T)
 
-Return the gauge-transform `gauge` of pair `J,h`. `J,h` are arrays of size `q×q×N×N, q×N` respectively. `J` should be symmetric: `J[a,b,i,j] == J[b,a,j,i]`. Allowed `gauge` are:  `ZeroSumGauge,LatticeGas,WildType`.
+Return the gauge-transform `gauge` of pair `J,h`. `J,h` are arrays of size `q×q×N×N, q×N` respectively. `J` should be symmetric: `J[a,b,i,j] == J[b,a,j,i]`. Allowed `gauge` are:  `ZeroSumGauge,LatticeGas,WildType, ExternalGauge`.
 
 Usage:
 
     gauge(J,h,ZeroSumGauge())
     gauge(J,h,Wildtype(x0))
-where in the last case `x0` is a `Vector{Int}` of size `N` whose values are in the interval `1,…,q`
+    gauge(J,h,ExternalGauge(U,V,C))
+where:
+    * For `WildType` `x0` is a `Vector{Int}` of size `N` whose values are in the interval `1,…,q`
+    * For `ExternalGauge`, `U`,`V` are `q×L×L` arrays, and C is vector of length `L`.
 """
 function gauge(J::Array{F,4},h::Array{F,2},gauge::T) where F <: Real where T <: Gauge
 
