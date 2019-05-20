@@ -22,5 +22,4 @@ The module defines  the gauge-transforms `gauge` of pair `J,h`. `J,h` are arrays
         * For `WildType` `x0` is a `Vector{Int}` of size `N` whose values are in the interval `1,…,q`
 
         * For `ExternalGauge`, `U`,`V` are `q×N×N` arrays, and C is vector of length `N`.
-    """
 ```
