@@ -2,7 +2,7 @@ module PottsGauge
 
 export gauge, ZeroSumGauge, LatticeGas, WildType, ExternalGauge
 
-using Statistics
+using Statistics, PlmDCA
 
 # start type definition
 
@@ -109,6 +109,10 @@ function Energy(J,h,x)
     ene -= h[x[N],N]
     return ene
 end
+
+#Convenience for using PlmDCA output
+Energy(Jh::PlmOut{4}, x)=Energy(Jh.J,Jh.h,x)
+
 
 """
     function testgauge(J1,h1,J2,h2; nsample::Integer)
