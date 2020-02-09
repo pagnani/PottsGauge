@@ -128,7 +128,7 @@ function testgauge(J1,h1, J2,h2; nsample::Integer=100)
     end
     s = std(res)
     μ = mean(res)
-    s > 1e-8 && warn("borked gauge? μ/std = ", μ/s)
+    s > 1e-8 && @warn "borked gauge? μ/std = $(μ/s)"
     # warn("⟨E₂-E₁⟩ = ",μ,"\tstd = $s (nsample = $nsample)")
     return μ,s
 end
@@ -207,6 +207,7 @@ function shift(J,h,x::WildType)
 end
 
 function isgauge(J,h,::ZeroSumGauge)
+
     q,q,N,N = size(J)
     for i in 1:N
         for j in 1:N
@@ -217,6 +218,7 @@ function isgauge(J,h,::ZeroSumGauge)
             end
         end
     end
+    maximum(abs,sum(h,dims=1)) < 1e-4 || (return false)
     return true
 end
 

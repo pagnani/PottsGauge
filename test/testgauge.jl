@@ -1,5 +1,5 @@
 module TestGauge
-using PottsGauge, Test
+using PottsGauge, Random, Test
 
 
 function gaugetests(q::Int,N::Int)
