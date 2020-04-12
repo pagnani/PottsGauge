@@ -59,7 +59,7 @@ function gauge(J::Array{F,4},h::Array{F,2},gauge::T) where F <: Real where T <: 
         end
     end
 
-   hT = zero(h)
+    hT = zero(h)
     for i in 1:N
         for a in 1:q
             hT[a,i] = h[a,i]
