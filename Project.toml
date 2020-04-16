@@ -1,6 +1,7 @@
 name = "PottsGauge"
 uuid = "3bb3bcb6-c561-57d3-939c-408d524c1e5b"
 author = ["Andrea Pagnani <andrea.pagnani@gmail.com>"]
+version = "0.1.0"
 
 [deps]
 Coverage = "a2441757-f6aa-5fb2-8edb-039e3f45d037"
