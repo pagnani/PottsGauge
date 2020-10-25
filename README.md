@@ -8,7 +8,7 @@ a vector `x` of length `N`, and `x[i] ∈ 1:q` (`q` state Potts variable), a gau
 is a change `(J,h)→(J',h')` such that for all Potts configurations `x`
 `E(x,J,h)-E(x,J',h')=const`.
 
-The module defines  the gauge-transforms `gauge` of pair `J,h`. `J,h` are arrays of size `q×q×N×N, q×N` respectively. `J` should be symmetric: `J[a,b,i,j] == J[b,a,j,i]`. Allowed `gauge` are:  `ZeroSumGauge,LatticeGas,WildType,ExternalGauge`.
+The module defines  the gauge-transforms `gauge` of pair `J,h`. `J,h` are arrays of size `q×q×N×N, q×N` respectively. `J` should be symmetric: `J[a,b,i,j] == J[b,a,j,i]`; if this is not the case it throws an error. Allowed `gauge` are:  `ZeroSumGauge,LatticeGas,WildType,ExternalGauge`.
 
 ```
     Usage:
