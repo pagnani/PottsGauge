@@ -31,6 +31,11 @@ function gaugetests(q::Int,N::Int)
     Jtest,htest = gauge(J,h,xEG)
     μ,s=PottsGauge.testgauge(Jtest,htest, J,h)
     @test s/μ < 1e-8
+
+    Jtest,htest = gauge(J,h,ZeroFieldGauge())
+    @test PottsGauge.isgauge(Jtest,htest, ZeroFieldGauge())
+    μ,s=PottsGauge.testgauge(Jtest,htest, J,h)
+    @test μ < 1e-8 && s < 1e-8
 end
 
 gaugetests(21,10)

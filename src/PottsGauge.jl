@@ -1,6 +1,7 @@
 module PottsGauge
 
-export gauge, ZeroSumGauge, LatticeGas, WildType, ExternalGauge
+using Base: Real
+export gauge, ZeroSumGauge, LatticeGas, WildType, ExternalGauge, ZeroFieldGauge
 
 using Statistics
 
@@ -19,6 +20,8 @@ struct ExternalGauge <: Gauge
     C::Array{Float64,1}
 end
 
+struct ZeroFieldGauge <: Gauge end
+
 """
     gauge(J,h,gauge::T)
 
@@ -27,6 +30,7 @@ Return the gauge-transform `gauge` of pair `J,h`. `J,h` are arrays of size `q×q
 Usage:
 
     gauge(J,h,ZeroSumGauge())
+    gauge(J,h,ZeroFieldGauge())
     gauge(J,h,Wildtype(x0))
     gauge(J,h,ExternalGauge(U,V,C))
 where:
@@ -35,12 +39,19 @@ where:
 
     * For `ExternalGauge`, `U`,`V` are `q×N×N` arrays, and C is vector of length `N`.
 """
-function gauge(J::Array{F,4},h::Array{F,2},gauge::T) where F <: Real where T <: Gauge
 
+function checkfield(J::Array{F,4},h::Array{F,2}) where F <: Real
     q,q,N,N = size(J)
     qh,Nh = size(h)
     Nh == N || error("Nh=$Nh != N=$N")
     qh == q || error("qh=$qh != q=$q")
+    return q,N
+end
+
+
+function gauge(J::Array{F,4},h::Array{F,2},gauge::T) where F <: Real where T <: Gauge
+
+    q,N=checkfield(J,h)
     sum(abs2,(J-permutedims(J,[2,1,4,3]))) > 1e-10 && error("J should be symmetric: J - permutedims(J,[2,1,4,3] != 0)")
 
     JT = zero(J)
@@ -84,6 +95,24 @@ function gauge(J::Array{F,4},h::Array{F,2},gauge::T) where F <: Real where T <: 
     end
     return JT,hT
 end
+
+function gauge(J::Array{F,4},h::Array{F,2},::ZeroFieldGauge) where F <: Real 
+    q,N=checkfield(J,h)
+    ht = zeros(F,size(h))
+    Jt = copy(J)
+    for i in 1:N-1
+        for j in i+1:N
+            for b in 1:q
+                for a in 1:q
+                    Jt[a,b,j,i] += (h[a,j] + h[b,i])/(N-1)
+                end
+            end
+        end
+    end
+    return Jt,ht
+end
+
+
 
 """
     function Energy(J,h,x)
@@ -236,5 +265,7 @@ function isgauge(J,h,::LatticeGas)
     end
     return true
 end
+
+isgauge(J,h,::ZeroFieldGauge) = iszero(h)
 
 end # end module GaugePotts

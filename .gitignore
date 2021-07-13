@@ -1,4 +1,5 @@
 *~
 .*.swp
 docs/build/
+.vscode
 Manifest.toml
