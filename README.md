@@ -14,6 +14,7 @@ The module defines  the gauge-transforms `gauge` of pair `J,h`. `J,h` are arrays
     Usage:
 
         gauge(J,h,ZeroSumGauge())
+        gauge(J,h,ZeroFieldGauge())
         gauge(J,h,Wildtype(x0))
         gauge(J,h,ExternalGauge(U,V,C))
 
